@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JOM KENALI HURUF VOKAL! - Pemulihan Khas</title>
+  <style>
+    :root {
+      --primary: #ff6b6b;
+      --secondary: #4ecdc4;
+      --accent: #ffe66d;
+      --dark: #2f2d2e;
+      --light: #f7f9fc;
+      --purple: #8a4fff;
+      --green: #2ecc71;
+      --orange: #ff9f43;
+      --blue: #54a0ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Fredoka', 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+      user-select: none;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #a8e6cf 0%, #dbede3 50%, #ffd3b6 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* Container utama */
+    #app-container {
+      width: 100%;
+      max-width: 900px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 15px;
+      position: relative;
+    }
+
+    /* Header Nav & Kawalan */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      padding: 10px 20px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      margin-bottom: 15px;
+    }
+
+    .title-badge {
+      font-weight: 900;
+      font-size: 1.2rem;
+      color: #ee5253;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      background: white;
+      border: 3px solid #f0f0f0;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    .icon-btn:hover {
+      transform: scale(1.1);
+      border-color: var(--secondary);
+    }
+
+    /* Kad Utama / Skrin */
+    .screen {
+      display: none;
+      background: white;
+      border-radius: 30px;
+      padding: 25px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      flex: 1;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Mascot Peti Harta Karun 3D Visual */
+    .treasure-chest-mascot {
+      width: 140px;
+      height: 140px;
+      background: linear-gradient(145deg, #d4a373, #a97142);
+      border-radius: 25px 25px 20px 20px;
+      border: 6px solid #5c3d2e;
+      position: relative;
+      margin: 10px auto 20px;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.2), inset 0 4px 8px rgba(255,255,255,0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(2deg); }
+    }
+
+    .chest-lid {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 40%;
+      background: #faedcd;
+      border-bottom: 5px solid #5c3d2e;
+      border-radius: 18px 18px 5px 5px;
+    }
+
+    .chest-eyes {
+      display: flex;
+      gap: 20px;
+      z-index: 2;
+      margin-top: 15px;
+    }
+
+    .eye {
+      width: 22px;
+      height: 22px;
+      background: #2b2b2b;
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .eye::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 50%;
+    }
+
+    .chest-smile {
+      width: 30px;
+      height: 14px;
+      border-bottom: 5px solid #2b2b2b;
+      border-radius: 0 0 20px 20px;
+      z-index: 2;
+      margin-top: 5px;
+    }
+
+    .chest-lock {
+      width: 24px;
+      height: 24px;
+      background: var(--accent);
+      border: 3px solid #b5838d;
+      border-radius: 50%;
+      position: absolute;
+      top: 30%;
+      z-index: 3;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    /* Form Input */
+    .input-group {
+      width: 100%;
+      max-width: 360px;
+      margin: 10px 0;
+      text-align: left;
+    }
+
+    .input-group label {
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #4a4a4a;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 15px 20px;
+      font-size: 1.2rem;
+      border: 3px solid #e0e0e0;
+      border-radius: 15px;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .input-field:focus {
+      border-color: var(--secondary);
+      box-shadow: 0 0 10px rgba(78, 205, 196, 0.3);
+    }
+
+    /* Buttons */
+    .btn-main {
+      background: linear-gradient(180deg, #ff9f43 0%, #ee5253 100%);
+      color: white;
+      border: none;
+      padding: 15px 35px;
+      font-size: 1.4rem;
+      font-weight: 800;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 0 #c0392b, 0 12px 20px rgba(0,0,0,0.2);
+      transition: all 0.1s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 10px;
+    }
+
+    .btn-main:active {
+      transform: translateY(6px);
+      box-shadow: 0 2px 0 #c0392b, 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(180deg, #54a0ff 0%, #2e86de 100%);
+      box-shadow: 0 8px 0 #222f3e, 0 12px 20px rgba(0,0,0,0.2);
+    }
+
+    .btn-green {
+      background: linear-gradient(180deg, #1dd1a1 0%, #10ac84 100%);
+      box-shadow: 0 8px 0 #0e7460, 0 12px 20px rgba(0,0,0,0.2);
+    }
+
+    .btn-purple {
+      background: linear-gradient(180deg, #9c88ff 0%, #8c7ae6 100%);
+      box-shadow: 0 8px 0 #7f8fa6, 0 12px 20px rgba(0,0,0,0.2);
+    }
+
+    /* Paparan Soalan / Vokal */
+    .letter-display {
+      font-size: 8rem;
+      font-weight: 900;
+      color: #ff4757;
+      text-shadow: 4px 4px 0 #ffa502, 8px 8px 0 #2ed573;
+      margin: 10px 0;
+      line-height: 1;
+      animation: pulse 1.5s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.08); }
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
+      width: 100%;
+      max-width: 500px;
+      margin: 20px 0;
+    }
+
+    .action-card {
+      background: #f8f9fa;
+      border: 3px solid #e9ecef;
+      border-radius: 20px;
+      padding: 15px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .action-card:hover {
+      background: #e3faf3;
+      border-color: var(--secondary);
+      transform: translateY(-4px);
+    }
+
+    .action-card .icon {
+      font-size: 2rem;
+    }
+
+    .action-card span {
+      font-size: 0.95rem;
+      font-weight: bold;
+    }
+
+    /* Peta Pengembaraan / Progress Bar */
+    .progress-bar-container {
+      width: 100%;
+      background: #e0e0e0;
+      height: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 15px 0;
+      border: 2px solid #ccc;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #1dd1a1, #10ac84);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .gems-counter {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #f1c40f;
+      background: #fff8e1;
+      padding: 5px 15px;
+      border-radius: 20px;
+      border: 2px solid #ffe082;
+    }
+
+    /* Audio Recording Meter */
+    .mic-status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-weight: bold;
+      margin: 10px 0;
+      min-height: 30px;
+    }
+
+    .recording-dot {
+      width: 15px;
+      height: 15px;
+      background-color: #ff4757;
+      border-radius: 50%;
+      display: inline-block;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    /* E-Taling & E-Pepet Selector */
+    .e-type-selector {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 10px 0;
+    }
+
+    .e-btn {
+      padding: 8px 15px;
+      border-radius: 12px;
+      border: 2px solid var(--secondary);
+      background: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .e-btn.active {
+      background: var(--secondary);
+      color: white;
+    }
+
+    /* Dashboard Guru & Jadual */
+    .teacher-dashboard {
+      text-align: left;
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: #f8f9fa;
+      border-left: 5px solid var(--secondary);
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    .stat-card h4 {
+      margin: 0;
+      color: #6c757d;
+      font-size: 0.85rem;
+    }
+
+    .stat-card .value {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--dark);
+      margin-top: 5px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #dee2e6;
+      text-align: center;
+    }
+
+    th {
+      background: #f1f3f5;
+      color: #495057;
+    }
+
+    .badge {
+      padding: 4px 8px;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    .badge-success { background: #d4edda; color: #155724; }
+    .badge-warning { background: #fff3cd; color: #856404; }
+    .badge-danger { background: #f8d7da; color: #721c24; }
+
+    /* Modals / Overlays */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    /* Print styles */
+    @media print {
+      body * { visibility: hidden; }
+      #modal-report, #modal-report * { visibility: visible; }
+      #modal-report { position: absolute; left: 0; top: 0; width: 100%; }
+      .no-print { display: none !important; }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div id="app-container">
+    
+    <!-- Header Navigation -->
+    <header>
+      <div class="title-badge">
+        💎 JOM KENALI HURUF VOKAL!
+      </div>
+      <div class="controls">
+        <button class="icon-btn" id="btn-audio-toggle" title="Tutup/Buka Muzik" onclick="toggleBGM()">🎵</button>
+        <button class="icon-btn" id="btn-speaker-repeat" title="Dengar Arahan Semula" onclick="repeatInstruction()">🔊</button>
+        <button class="icon-btn" title="Dashboard Guru" onclick="showTeacherDashboard()">👨‍🏫</button>
+      </div>
+    </header>
+
+    <!-- 1. SKRIN UTAMA / DAFTAR -->
+    <div id="screen-welcome" class="screen active">
+      <div class="treasure-chest-mascot">
+        <div class="chest-lid"></div>
+        <div class="chest-eyes">
+          <div class="eye"></div>
+          <div class="eye"></div>
+        </div>
+        <div class="chest-smile"></div>
+        <div class="chest-lock"></div>
+      </div>
+      
+      <h1 style="color: #ee5253; margin-bottom: 5px;">PULAU HARTA KARUN VOKAL</h1>
+      <p style="font-size: 1.1rem; color: #576574; font-weight: bold; margin-top: 0;">
+        Dengar, Sebut dan Jadi Juara Vokal!
+      </p>
+
+      <div class="input-group">
+        <label for="student-name">👤 Nama Murid:</label>
+        <input type="text" id="student-name" class="input-field" placeholder="Masukkan nama..." autocomplete="off">
+      </div>
+
+      <div class="input-group">
+        <label for="student-class">🏫 Kelas:</label>
+        <input type="text" id="student-class" class="input-field" placeholder="Contoh: 1 Mawar / Pemulihan" autocomplete="off">
+      </div>
+
+      <button class="btn-main" onclick="startAdventure()">
+        🚀 MULA PENGEMBARAAN
+      </button>
+    </div>
+
+    <!-- 2. SKRIN PERMAINAN (MISI 1 & MISI 2) -->
+    <div id="screen-game" class="screen">
+      
+      <!-- Top Status Info -->
+      <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; margin-bottom: 10px;">
+        <div>
+          <span id="player-tag" style="font-weight: bold; color: #2e86de;">👤 Aina (1 Mawar)</span>
+          <div style="font-size: 0.85rem; color: #8395a7;" id="mission-tag">Misi 1: Kenali Nama Huruf</div>
+        </div>
+        <div class="gems-counter">
+          💎 <span id="gem-count">0</span>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="game-progress"></div>
+      </div>
+
+      <!-- Mascot Guidance Bubble -->
+      <div style="background: #e3faf3; border: 2px dashed #4ecdc4; padding: 10px 15px; border-radius: 15px; margin-bottom: 10px; width: 100%;">
+        <p id="instruction-text" style="margin: 0; font-weight: bold; color: #006266; font-size: 1.1rem;">
+          Lihat huruf ini. Dengar contoh dahulu, kemudian sebut nama huruf ini.
+        </p>
+      </div>
+
+      <!-- Paparan Huruf Utama -->
+      <div class="letter-display" id="current-letter">a</div>
+
+      <!-- Pilih Bunyi e (Hanya untuk Misi 2 pada huruf 'e') -->
+      <div id="e-sound-option" class="e-type-selector" style="display: none;">
+        <button class="e-btn active" id="btn-epenet" onclick="setEType('pepet')">e (pepet) [Contoh: emak]</button>
+        <button class="e-btn" id="btn-etaling" onclick="setEType('taling')">e (taling) [Contoh: ekor]</button>
+      </div>
+
+      <!-- Status Rakaman Suara -->
+      <div class="mic-status" id="mic-status-container">
+        <span id="mic-text" style="color: #576574;">Tekan butang Rakam Suara untuk bermula.</span>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-grid">
+        <div class="action-card" onclick="playLetterExample()">
+          <div class="icon">🔔</div>
+          <span>Dengar Contoh</span>
+        </div>
+
+        <div class="action-card" id="btn-record" onclick="toggleRecording()">
+          <div class="icon">🎙️</div>
+          <span id="record-label">Rakam Suara</span>
+        </div>
+
+        <div class="action-card" id="btn-play-rec" onclick="playStudentAudio()" style="opacity: 0.5; pointer-events: none;">
+          <div class="icon">🎧</div>
+          <span>Dengar Suara</span>
+        </div>
+
+        <div class="action-card" id="btn-check" onclick="evaluateAnswer()" style="opacity: 0.5; pointer-events: none;">
+          <div class="icon">✨</div>
+          <span>Semak Jawapan</span>
+        </div>
+      </div>
+
+      <!-- Navigation Bottom Button -->
+      <button class="btn-main btn-green" id="btn-next" onclick="nextQuestion()" style="display: none; width: 100%; justify-content: center;">
+        SETERUSNYA ➔
+      </button>
+
+    </div>
+
+    <!-- 3. SKRIN KEPUTUSAN / TAMAT -->
+    <div id="screen-result" class="screen">
+      <div style="font-size: 4rem;">🏆</div>
+      <h1 style="color: #ff9f43; margin: 5px 0;">TAHNIAH, JUARA VOKAL!</h1>
+      <p id="result-greeting" style="font-size: 1.2rem; font-weight: bold; color: #576574;">
+        Kamu berjaya menyelesaikan pengembaraan!
+      </p>
+
+      <div style="background: #f8f9fa; border-radius: 20px; padding: 15px; width: 100%; margin: 15px 0; border: 2px solid #e9ecef;">
+        <div style="display: flex; justify-content: space-around; text-align: center;">
+          <div>
+            <div style="font-size: 0.9rem; color: #8395a7;">Misi 1 (Nama)</div>
+            <div style="font-size: 1.5rem; font-weight: bold; color: #2e86de;" id="res-m1">0/5</div>
+          </div>
+          <div>
+            <div style="font-size: 0.9rem; color: #8395a7;">Misi 2 (Bunyi)</div>
+            <div style="font-size: 1.5rem; font-weight: bold; color: #10ac84;" id="res-m2">0/5</div>
+          </div>
+          <div>
+            <div style="font-size: 0.9rem; color: #8395a7;">Permata</div>
+            <div style="font-size: 1.5rem; font-weight: bold; color: #f1c40f;" id="res-gems">💎 0</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+        <button class="btn-main btn-purple" onclick="restartGame()">🔄 Main Semula</button>
+        <button class="btn-main btn-secondary" onclick="showTeacherDashboard()">📊 Lihat Laporan</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODAL: DASHBOARD GURU -->
+  <div class="modal-overlay" id="modal-dashboard">
+    <div class="modal-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <h2 style="margin: 0; color: #2e86de;">👨‍🏫 Dashboard Pentaksiran Guru</h2>
+        <button onclick="closeModal('modal-dashboard')" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">❌</button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h4>JUMLAH MURID</h4>
+          <div class="value" id="dash-total-students">0</div>
+        </div>
+        <div class="stat-card">
+          <h4>JUMLAH PERCUBAAN</h4>
+          <div class="value" id="dash-total-attempts">0</div>
+        </div>
+        <div class="stat-card">
+          <h4>PURATA PENGUASAAN</h4>
+          <div class="value" id="dash-avg-mastery">0%</div>
+        </div>
+      </div>
+
+      <h3>📌 Rekod Pentaksiran Murid</h3>
+      <div style="margin-bottom: 10px; display: flex; gap: 10px;">
+        <input type="text" id="dash-search" placeholder="Cari nama murid..." class="input-field" style="padding: 8px 15px; font-size: 0.9rem;" onkeyup="renderTeacherTable()">
+      </div>
+
+      <div class="teacher-dashboard">
+        <table>
+          <thead>
+            <tr>
+              <th>Nama</th>
+              <th>Kelas</th>
+              <th>Misi 1</th>
+              <th>Misi 2</th>
+              <th>Penguasaan</th>
+              <th>Tahap</th>
+              <th>Tindakan</th>
+            </tr>
+          </thead>
+          <tbody id="dash-table-body">
+            <!-- Data dynamically loaded -->
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 20px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+        <button class="btn-main btn-secondary" style="font-size: 0.9rem; padding: 10px 20px;" onclick="exportDataCSV()">📥 Eksport CSV</button>
+        <button class="btn-main" style="font-size: 0.9rem; padding: 10px 20px; background: #ee5253;" onclick="clearAllData()">🗑️ Padam Semua Rekod</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: LAPORAN INDIVIDU & INTERVENSI -->
+  <div class="modal-overlay" id="modal-report">
+    <div class="modal-content">
+      <div class="no-print" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <h2 style="margin: 0;">📋 Laporan Individual Murid</h2>
+        <button onclick="closeModal('modal-report')" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">❌</button>
+      </div>
+
+      <div id="report-details-content">
+        <!-- Content inserted dynamically -->
+      </div>
+
+      <div class="no-print" style="margin-top: 20px; text-align: right;">
+        <button class="btn-main btn-green" style="font-size: 0.9rem; padding: 10px 20px;" onclick="window.print()">🖨️ Cetak Laporan</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================
+       LOGIK UTAMA APLIKASI & PEMBELAJARAN INTERAKTIF
+       ========================================== */
+
+    let currentStudent = { name: '', class: '', date: '' };
+    let currentMission = 1;
+    let currentQuestionIdx = 0;
+    const vowels = ['a', 'e', 'i', 'o', 'u'];
+    let selectedEType = 'pepet';
+    let gemCount = 0;
+
+    let sessionResults = {
+      misi1: { a: null, e: null, i: null, o: null, u: null },
+      misi2: { a: null, e: null, i: null, o: null, u: null },
+      recordings: {}
+    };
+
+    let isBgmPlaying = false;
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let current
